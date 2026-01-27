@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pr-orchestrator-mcp"
+version = "0.1.0"
+description = "Tools-only MCP server for orchestrating pull request creation on Python repositories."
+readme = "README.md"
+authors = [ { name = "Saakshi Gupta", email = "saakshi@example.com" } ]
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pyyaml>=6.0",
+    "httpx>=0.25.0",
+    # GitPython removed; shell git is used instead
+    "python-dotenv>=1.0.0",
+    # MCP SDK for stdio server support.  Use the official MCP Python SDK
+    # packaged under the `mcp` namespace.
+    "mcp>=0.1.0",
+    # B5: Use the E2B Python SDK (not e2b-code-interpreter) which provides
+    # the Sandbox class with commands.run() and files.read/write() APIs.
+    "e2b>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "ruff>=0.4.0",
+    "mypy>=1.8.0",
+    "pre-commit>=3.5.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+pr-orchestrator-mcp = "pr_orchestrator.server:main"
+
+[tool.ruff]
+select = ["E","F","I","B","W","UP"]
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+show_error_codes = true
+exclude = ["tests"]
+
+[tool.coverage.run]
+source = ["pr_orchestrator"]

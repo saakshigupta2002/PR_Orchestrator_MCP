@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Test and coverage artifacts
+.coverage
+.cache/
+.pytest_cache/
+pytest_cache/
+
+# Type checking and linting caches
+.mypy_cache/
+.ruff_cache/
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Distribution / packaging
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# Environment variables
+.env
+
+# Lock files
+pip-wheel-metadata/
+
+# OS-specific
+Thumbs.db
+Desktop.ini
+.DS_Store
