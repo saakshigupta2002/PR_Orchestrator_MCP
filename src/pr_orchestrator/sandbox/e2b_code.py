@@ -40,7 +40,12 @@ class E2BCodeWorkspace:
         from .backend import E2BBackend
 
         api_key = os.environ.get("E2B_API_KEY")
-        e2b_template = os.environ.get("E2B_TEMPLATE", "base")
+        # NOTE: Older versions of the E2B SDK accepted a ``template`` argument
+        # and explicit ``timeout`` value when constructing ``Sandbox``.
+        # The current SDK (used in this project) exposes a generic
+        # ``Sandbox(**SandboxOpts)`` interface which no longer supports those
+        # parameters directly.  TTL is enforced at the PR Orchestrator layer
+        # (see ``WorkspaceStore``), so we simply create a default sandbox here.
 
         if not api_key:
             raise RuntimeError(
@@ -55,9 +60,10 @@ class E2BCodeWorkspace:
 
             # Create sandbox with timeout based on TTL (in seconds)
             timeout_seconds = self.ttl_minutes * 60
+            e2b_template = os.environ.get("E2B_TEMPLATE")  # None = use default
 
-            # Create the sandbox with the configured template
-            self._sandbox = Sandbox(
+            # Use Sandbox.create() class method with optional template/timeout
+            self._sandbox = Sandbox.create(
                 template=e2b_template,
                 timeout=timeout_seconds,
             )

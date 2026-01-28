@@ -105,16 +105,16 @@ def main() -> None:
     # Create MCP server
     mcp = FastMCP("pr-orchestrator-mcp")
 
-    # Register all tools
+    # Register all tools using add_tool
     dispatch = build_tools_dispatch()
     for name, func in dispatch.items():
-        mcp.register_tool(name, func)
+        mcp.add_tool(func, name=name)
 
     logger.info("Registered %d tools", len(dispatch))
 
-    # Run the MCP server over stdio
-    # This call blocks and handles the MCP protocol
-    mcp.run_stdio()
+    # Run the MCP server over stdio (blocking)
+    # This call handles the MCP protocol and keeps server alive
+    mcp.run(transport="stdio")
 
 
 if __name__ == "__main__":
